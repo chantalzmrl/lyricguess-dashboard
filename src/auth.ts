@@ -31,7 +31,6 @@ export const { auth, signIn, signOut } = NextAuth({
 
           const user = await getUser(email);
           if (!user){
-            console.log("test2");
             return null;
           }
 
@@ -39,6 +38,7 @@ export const { auth, signIn, signOut } = NextAuth({
           console.log(password);
           console.log(user.password);
           if (passwordsMatch){
+            console.log("OUI");
             return user;
           }
         }
