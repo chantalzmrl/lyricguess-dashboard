@@ -15,7 +15,7 @@ async function seedUsers(client) {
       CREATE TABLE IF NOT EXISTS Users (
         ID_user SERIAL PRIMARY KEY,
         email VARCHAR(50) NOT NULL UNIQUE,
-        password VARCHAR(50) NOT NULL,
+        password TEXT NOT NULL,
         pseudo VARCHAR(50) NOT NULL
       );
     `;
