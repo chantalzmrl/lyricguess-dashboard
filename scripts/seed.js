@@ -10,9 +10,9 @@ const bcrypt = require('bcrypt');
 
 async function seedUsers(client) {
   try {
-    // Create the "User" table if it doesn't exist
+    // Create the "Users" table if it doesn't exist
     const createTable = await client.sql`
-      CREATE TABLE IF NOT EXISTS User (
+      CREATE TABLE IF NOT EXISTS Users (
         ID_user SERIAL PRIMARY KEY,
         email VARCHAR(50) NOT NULL UNIQUE,
         password VARCHAR(50) NOT NULL,
@@ -20,14 +20,14 @@ async function seedUsers(client) {
       );
     `;
 
-    console.log(`Created "User" table`);
+    console.log(`Created "Users" table`);
 
-    // Insert data into the "User" table
+    // Insert data into the "Users" table
     const insertedUsers = await Promise.all(
       users.map(async (user) => {
         const hashedPassword = await bcrypt.hash(user.password, 10);
         return client.sql`
-          INSERT INTO User (email, password, pseudo)
+          INSERT INTO Users (email, password, pseudo)
           VALUES (${user.email}, ${hashedPassword}, ${user.pseudo})
           ON CONFLICT (email) DO NOTHING;
         `;
@@ -52,30 +52,16 @@ async function seedSongs(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS Chansons (
         ID_chanson SERIAL PRIMARY KEY,
-        paroles TEXT NOT NULL,
-        artiste VARCHAR(50) NOT NULL,
-        titre VARCHAR(50) NOT NULL
+        paroles TEXT,
+        artiste VARCHAR(100),
+        titre VARCHAR(100)
       );
     `;
 
     console.log(`Created "Chansons" table`);
 
-    // Insert data into the "Chansons" table
-    const insertedSongs = await Promise.all(
-      songs.map(async (song) => {
-        return client.sql`
-          INSERT INTO Chansons (paroles, artiste, titre)
-          VALUES (${song.paroles}, ${song.artiste}, ${song.titre})
-          ON CONFLICT (titre) DO NOTHING;
-        `;
-      })
-    );
-
-    console.log(`Seeded ${insertedSongs.length} songs`);
-
     return {
-      createTable,
-      songs: insertedSongs,
+      createTable
     };
   } catch (error) {
     console.error('Error seeding songs:', error);
@@ -96,22 +82,8 @@ async function seedParams(client) {
 
     console.log(`Created "Parametres" table`);
 
-    // Insert data into the "Parametres" table
-    const insertedParams = await Promise.all(
-      params.map(async (param) => {
-        return client.sql`
-          INSERT INTO Parametres (temps, nbChanson)
-          VALUES (${param.temps}, ${param.nbChanson})
-          ON CONFLICT (ID_params) DO NOTHING;
-        `;
-      })
-    );
-
-    console.log(`Seeded ${insertedParams.length} params`);
-
     return {
-      createTable,
-      params: insertedParams,
+      createTable
     };
   } catch (error) {
     console.error('Error seeding params:', error);
@@ -130,22 +102,8 @@ async function seedDates(client) {
 
     console.log(`Created "Dates" table`);
 
-    // Insert data into the "Dates" table
-    const insertedDates = await Promise.all(
-      dates.map(async (date) => {
-        return client.sql`
-          INSERT INTO Dates (timer)
-          VALUES (${date.timer})
-          ON CONFLICT (timer) DO NOTHING;
-        `;
-      })
-    );
-
-    console.log(`Seeded ${insertedDates.length} dates`);
-
     return {
-      createTable,
-      dates: insertedDates,
+      createTable
     };
   } catch (error) {
     console.error('Error seeding dates:', error);
@@ -164,7 +122,7 @@ async function seedScores(client) {
         ID_params INT,
         number INT,
         PRIMARY KEY(ID_user, ID_chanson, timer, ID_params),
-        FOREIGN KEY(ID_user) REFERENCES User(ID_user),
+        FOREIGN KEY(ID_user) REFERENCES Users(ID_user),
         FOREIGN KEY(ID_chanson) REFERENCES Chansons(ID_chanson),
         FOREIGN KEY(timer) REFERENCES Dates(timer),
         FOREIGN KEY(ID_params) REFERENCES Parametres(ID_params)
@@ -173,22 +131,8 @@ async function seedScores(client) {
 
     console.log(`Created "Score" table`);
 
-    // Insert data into the "Score" table
-    const insertedScores = await Promise.all(
-      score.map(async (sc) => {
-        return client.sql`
-          INSERT INTO Score (ID_user, ID_chanson, timer, ID_params, number)
-          VALUES (${sc.ID_user}, ${sc.ID_chanson}, ${sc.timer}, ${sc.ID_params}, ${sc.number})
-          ON CONFLICT DO NOTHING;
-        `;
-      })
-    );
-
-    console.log(`Seeded ${insertedScores.length} scores`);
-
     return {
-      createTable,
-      scores: insertedScores,
+      createTable
     };
   } catch (error) {
     console.error('Error seeding scores:', error);
