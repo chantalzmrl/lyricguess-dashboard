@@ -27,20 +27,33 @@ export default function GenreSelector({ genres }: { genres: string[] }) {
     }
   };
 
+  const handleGenreRemove = (genreToRemove: string) => {
+    setSelectedGenres(selectedGenres.filter(genre => genre !== genreToRemove));
+  };
+
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-bold mb-4">Select Genres</h2>
       <select onChange={handleGenreSelect} className="p-2 border rounded mb-4">
         <option value="">Select a genre</option>
-        {genres.map((genre: any, index: any) => (
+        {genres.map((genre, index) => (
           <option key={index} value={genre}>{genre}</option>
         ))}
       </select>
       <div>
-        <h3 className="text-xl font-bold mb-2">Selected Genres</h3>
+        <h3 className="text-xl font-bold mb-2">Selected Genres BLBLBLBLB</h3>
         <ul className="list-disc pl-4">
           {selectedGenres.map((genre, index) => (
-            <li key={index}>{genre}</li>
+            <li key={index} className="flex items-center">
+              {genre}
+              <button
+                onClick={() => handleGenreRemove(genre)}
+                className="ml-2 text-red-600"
+              >
+                &times;
+              </button>
+            </li>
+            
           ))}
         </ul>
       </div>
