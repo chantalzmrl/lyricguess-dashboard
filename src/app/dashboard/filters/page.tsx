@@ -9,6 +9,9 @@ type Genre = {
   name: string;
 };
 
+const APIClem = "748abbee5cd03af50b25df7d90712004"
+const APIChan = "cc714dd978bb466ab1647a1930dab0eb"
+
 const languageOptions = [
   { value: 'en', label: 'Anglais' },
   { value: 'fr', label: 'Français' },
@@ -30,12 +33,21 @@ export default function Page() {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const response = await fetch('https://api.musixmatch.com/ws/1.1/music.genres.get?apikey=748abbee5cd03af50b25df7d90712004');
+        const response = await fetch('https://api.musixmatch.com/ws/1.1/music.genres.get?apikey=' + APIChan);
         const data = await response.json();
-        const fetchedGenres = data.message.body.music_genre_list.map((genre: any) => ({
-          id: genre.music_genre.music_genre_id,
-          name: genre.music_genre.music_genre_name,
-        }));
+
+        const genresList = data.message.body.music_genre_list;
+        const fetchedGenres: any = [];
+
+        genresList.forEach((genre: any) => {
+          const genreName = genre.music_genre.music_genre_name_extended;
+          if (genre.music_genre.music_genre_parent_id == 34) {
+            fetchedGenres.push({
+              id: genre.music_genre.music_genre_id, // Combinaison pour garantir l'unicité
+              name: genreName,
+            });
+          }
+        });
         setGenres(fetchedGenres);
       } catch (error) {
         console.error('Error fetching genres:', error);
@@ -79,6 +91,11 @@ export default function Page() {
   const handleRedirect = () => {
     localStorage.setItem("Langues", JSON.stringify(selectedLanguageValues));
     localStorage.setItem("Genres", JSON.stringify(selectedGenresId));
+    const selectTimer = document.querySelector("#selectTimer + select");
+    const selectManche = document.querySelector("#selectManche + select");
+    
+    localStorage.setItem("Timer", JSON.stringify(selectTimer?.value));
+    localStorage.setItem("Manche", JSON.stringify(selectManche?.value));
     router.push('/dashboard/game');
   };
 
@@ -91,11 +108,11 @@ export default function Page() {
         <div className="flex flex-col items-center">
           <h2 className="text-2xl font-bold mb-4">Choisis la langues des paroles de musiques</h2>
           <select onChange={handleLanguageSelect} className="p-2 border rounded mb-4">
-        <option value="">Toutes les langues</option>
-        {languageOptions.map((option) => (
-          <option key={option.value} value={option.value}>{option.label}</option>
-        ))}
-      </select>
+            <option value="">Toutes les langues</option>
+            {languageOptions.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
           <div>
             <h3 className="text-xl font-bold mb-2">Langues choisies</h3>
             <ul className="list-disc pl-4">
@@ -138,6 +155,34 @@ export default function Page() {
             </ul>
           </div>
         </div>
+      </div>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <h3 id="selectTimer" className="text-2xl font-bold mb-4">temps par manche</h3>
+        <select className="p-2 border rounded mb-4">
+          <option value="10">10s</option>
+          <option value="30">30s</option>
+          <option value="60">1min</option>
+          <option value="90">1min30</option>
+          <option value="120">2min</option>
+          <option value="180">3min</option>
+        </select>
+      </div>
+      <div>
+        <h3 id="selectManche" className="text-2xl font-bold mb-4">nombre de manches</h3>
+        <select className="p-2 border rounded mb-4">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </div>
       </div>
       <div>
         <button onClick={handleRedirect} className="p-2 bg-blue-500 text-white rounded">
