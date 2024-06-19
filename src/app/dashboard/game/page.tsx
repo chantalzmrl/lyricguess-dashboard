@@ -54,7 +54,8 @@ export default function Page() {
     };
 
     const { musicId, artist, title, tabTitles } = useFetchRandomMusic(APIClem, triggerFetch, initializedMusic);
-    const { entireLyric, halfLyric } = useFetchLyrics(APIClem, musicId, initializedLyric, handleLyricFetchError);
+    // const { entireLyric, halfLyric } = useFetchLyrics(APIClem, musicId, initializedLyric, handleLyricFetchError);
+    const { entireLyric, halfLyric } = useFetchLyrics(APIClem, musicId, initializedLyric);
 
     useEffect(() => {
         setIsClient(true);
@@ -85,11 +86,11 @@ export default function Page() {
         }
     }, [entireLyric, halfLyric]);
 
-    function handleLyricFetchError() {
-        initializedMusic.current = false;
-        initializedLyric.current = false;
-        setTriggerFetch(prev => !prev);
-    }
+    // function handleLyricFetchError() {
+    //     initializedMusic.current = false;
+    //     initializedLyric.current = false;
+    //     setTriggerFetch(prev => !prev);
+    // }
 
     function validateAnswer(event: any) {
         event.preventDefault();
