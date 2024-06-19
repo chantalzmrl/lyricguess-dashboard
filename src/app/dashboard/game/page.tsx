@@ -53,8 +53,8 @@ export default function Page() {
         setManchesParole([...manchesParole, parole]);
     };
 
-    const { musicId, artist, title, tabTitles } = useFetchRandomMusic(APIChan3, triggerFetch, initializedMusic);
-    const { entireLyric, halfLyric } = useFetchLyrics(APIChan3, musicId, initializedLyric);
+    const { musicId, artist, title, tabTitles } = useFetchRandomMusic(APIChan2, triggerFetch, initializedMusic);
+    const { entireLyric, halfLyric } = useFetchLyrics(APIChan2, musicId, initializedLyric);
 
     useEffect(() => {
         setIsClient(true);
@@ -123,13 +123,13 @@ export default function Page() {
 
     function addLyric() {
         setShowEntireLyric(true);
-        setScoreManche(ScoreManche => ScoreManche - 20);
+        setScoreManche(ScoreManche => ScoreManche - 30);
     }
 
     function showChoices() {
         setInputVisible(false);
         setChoicesVisible(true);
-        setScoreManche(ScoreManche => ScoreManche - 30);
+        setScoreManche(ScoreManche => ScoreManche - 40);
         setChoices(tabTitles);
     }
 
@@ -148,6 +148,7 @@ export default function Page() {
 
                 if (nbManche < nbMancheUser) {
                     setScoreManche(0);
+                    console.log(ScoreManche);
                     generateNewMusic();
                 } else {
                     endGame();
@@ -193,7 +194,26 @@ export default function Page() {
         setScoreManche(100);
         setNbManche(1);
         setGameOver(false);
+        setManchesTitre([]);
+        setManchesArtist([]);
+        setManchesParole([]);
+        const inputHTML = document.getElementById('answer');
+        if (inputHTML)
+            inputHTML.style.backgroundColor = 'white';
+        setInputVisible(true);
+        setChoicesVisible(false);
+        setChoices([]);
+        setChosenAnswer('');
+        setCorrectAnswer('');
+
+        initializedMusic.current = false;
+        initializedLyric.current = false;
+
         setTriggerFetch(!triggerFetch);
+        setTimeLeft(TimeUser);
+        setShowEntireLyric(false);
+        setShowArtist(false);
+        setCurrentLyric({ entireLyric: '', halfLyric: '' });
     }
     return (
         <main className="flex flex-col items-center justify-center h-screen">

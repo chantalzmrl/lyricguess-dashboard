@@ -28,6 +28,7 @@ const EndGame: React.FC<EndGameProps> = ({ score, replay, titres, artistes, paro
                     let isTheBestScore =  await theBestScore(score)
                     // console.log(isTheBestScore);
                     setbestScore(isTheBestScore);
+                    // setbestScore(true);
                     await InsertDatas(titres, artistes, paroles, time, manches, score);
                 } catch (error) {
                     console.error('Error inserting data:', error);

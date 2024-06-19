@@ -35,7 +35,7 @@ export default function Titres() {
                 <table className="min-w-full bg-white text-gray-900 rounded-lg overflow-hidden">
                     <thead>
                         <tr>
-                            <th className="bg-gray-700 p-2 text-white">Nom de l utilisateur</th>
+                            <th className="bg-gray-700 p-2 text-white">Joueur</th>
                             <th className="bg-gray-700 p-2 text-white">Score</th>
                             <th className="bg-gray-700 p-2 text-white">Date</th>
                             <th className="bg-gray-700 p-2 text-white">Détails</th>
@@ -44,7 +44,7 @@ export default function Titres() {
                     <tbody>
                         {scores.map((score, index) => (
                             <tr key={index} className="border-b">
-                                <td className="p-2">{score.ID_user || "Anonyme"}</td>
+                                <td className="p-2">{score.ID_user || "Chantal et Clem"}</td>
                                 <td className="p-2">{score.number}</td>
                                 <td className="p-2">{score.timer.toString().substring(0, 10)}</td>
                                 <td className="p-2">

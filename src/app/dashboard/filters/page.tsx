@@ -42,7 +42,7 @@ export default function Page() {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const response = await fetch('https://api.musixmatch.com/ws/1.1/music.genres.get?apikey=' + APIChan3);
+        const response = await fetch('https://api.musixmatch.com/ws/1.1/music.genres.get?apikey=' + APIChan2);
         const data = await response.json();
 
         const genresList = data.message.body.music_genre_list;
