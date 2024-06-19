@@ -93,8 +93,8 @@ export default function Page() {
 
     function validateAnswer(event: any) {
         event.preventDefault();
-        const inputt = document.getElementById('answer') as HTMLSelectElement
-        const input = inputt.value;
+        const inputt = document.getElementById('answer');
+        const input = inputt?.value;
         const inputHTML = document.getElementById('answer');
         if (inputHTML) {
             if (verifyAnswer(input, title)) {
@@ -165,8 +165,8 @@ export default function Page() {
     }
 
     function generateNewMusic() {
-        const inputt = document.getElementById('answer') as HTMLSelectElement
-        let input = inputt.value;
+        const inputt = document.getElementById('answer');
+        let input = inputt?.value;
         input = "";
         addMusic(title, artist, entireLyric);
         const inputHTML = document.getElementById('answer');
