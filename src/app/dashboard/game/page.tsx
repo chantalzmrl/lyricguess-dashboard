@@ -54,7 +54,7 @@ export default function Page() {
     };
 
     const { musicId, artist, title, tabTitles } = useFetchRandomMusic(APIChan2, triggerFetch, initializedMusic);
-    const { entireLyric, halfLyric } = useFetchLyrics(APIChan2, musicId, initializedLyric);
+    const { entireLyric, halfLyric } = useFetchLyrics(APIChan2, musicId, initializedLyric, handleLyricFetchError);
 
     useEffect(() => {
         setIsClient(true);
@@ -84,6 +84,12 @@ export default function Page() {
             setCurrentLyric({ entireLyric, halfLyric });
         }
     }, [entireLyric, halfLyric]);
+
+    function handleLyricFetchError() {
+        initializedMusic.current = false;
+        initializedLyric.current = false;
+        setTriggerFetch(prev => !prev);
+    }
 
     function validateAnswer(event: any) {
         event.preventDefault();
@@ -281,7 +287,7 @@ export default function Page() {
                                 </div>
                             )}
                             <div className="mb-5">
-                                <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700" onClick={revealArtist}>Dévoiler l&aposartiste</button>
+                                <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700" onClick={revealArtist}>{`Dévoiler l'artiste`}</button>
                                 <div id="rvArtist" className="mt-2 text-lg" dangerouslySetInnerHTML={{ __html: showArtist ? artist : "" }}></div>
                             </div>
                             <div>
