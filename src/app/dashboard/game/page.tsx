@@ -28,9 +28,9 @@ export default function Page() {
     const [inputVisible, setInputVisible] = useState(true);
     const [choicesVisible, setChoicesVisible] = useState(false);
     const [choices, setChoices] = useState([]);
-    const [manchesTitre, setManchesTitre] = useState([]);
-    const [manchesArtist, setManchesArtist] = useState([]);
-    const [manchesParole, setManchesParole] = useState([]);
+    const [manchesTitre, setManchesTitre] = useState<string[]>([]);
+    const [manchesArtist, setManchesArtist] = useState<string[]>([]);
+    const [manchesParole, setManchesParole] = useState<string[]>([]);
     const [isClient, setIsClient] = useState(false);
     const [chosenAnswer, setChosenAnswer] = useState('');
     const [correctAnswer, setCorrectAnswer] = useState('');
@@ -93,7 +93,8 @@ export default function Page() {
 
     function validateAnswer(event: any) {
         event.preventDefault();
-        const input = document.getElementById('answer')?.value;
+        const inputt = document.getElementById('answer') as HTMLSelectElement
+        const input = inputt.value;
         const inputHTML = document.getElementById('answer');
         if (inputHTML) {
             if (verifyAnswer(input, title)) {
@@ -164,7 +165,8 @@ export default function Page() {
     }
 
     function generateNewMusic() {
-        let input = document.getElementById('answer')?.value;
+        const inputt = document.getElementById('answer') as HTMLSelectElement
+        let input = inputt.value;
         input = "";
         addMusic(title, artist, entireLyric);
         const inputHTML = document.getElementById('answer');
@@ -260,7 +262,7 @@ export default function Page() {
                         <div className="border-2 border-purple-500 rounded-lg p-6 min-w-142">
                             {inputVisible && (
                                 <form onSubmit={validateAnswer} method="post" className="mb-5 flex justify-between">
-                                    <input type="text" id="answer" name="answer" placeholder="Réponse" required minLength="1" size="15" className="border border-gray-400 p-2 rounded w-3/4 h-11  mr-2" />
+                                    <input type="text" id="answer" name="answer" placeholder="Réponse" required className="border border-gray-400 p-2 rounded w-3/4 h-11  mr-2" />
                                     <input type="submit" value="Valider" className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700 cursor-pointer w-1/4 h-11 ml-2" />
                                 </form>
                             )}

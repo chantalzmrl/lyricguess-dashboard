@@ -100,8 +100,8 @@ export default function Page() {
   const handleRedirect = () => {
     localStorage.setItem("Langues", JSON.stringify(selectedLanguageValues));
     localStorage.setItem("Genres", JSON.stringify(selectedGenresId));
-    const selectTimer = document.querySelector("#selectTimer + select");
-    const selectManche = document.querySelector("#selectManche + select");
+    const selectTimer = document.querySelector("#selectTimer + select") as HTMLSelectElement;
+    const selectManche = document.querySelector("#selectManche + select") as HTMLSelectElement;
     
     localStorage.setItem("Timer", JSON.stringify(selectTimer?.value));
     localStorage.setItem("Manche", JSON.stringify(selectManche?.value));
