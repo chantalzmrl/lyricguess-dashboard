@@ -53,8 +53,8 @@ export default function Page() {
         setManchesParole([...manchesParole, parole]);
     };
 
-    const { musicId, artist, title, tabTitles } = useFetchRandomMusic(APIChan2, triggerFetch, initializedMusic);
-    const { entireLyric, halfLyric } = useFetchLyrics(APIChan2, musicId, initializedLyric, handleLyricFetchError);
+    const { musicId, artist, title, tabTitles } = useFetchRandomMusic(APIClem, triggerFetch, initializedMusic);
+    const { entireLyric, halfLyric } = useFetchLyrics(APIClem, musicId, initializedLyric, handleLyricFetchError);
 
     useEffect(() => {
         setIsClient(true);
