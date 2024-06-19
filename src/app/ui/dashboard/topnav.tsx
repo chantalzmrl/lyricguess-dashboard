@@ -6,7 +6,7 @@ import { signOut } from '@/auth';
 
 export default function TopNav() {
   return (
-    <header className="bg-blue-600 shadow-md">
+    <header className="bg-gray-800 shadow-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center space-x-4">
           <Link href="/">
@@ -19,7 +19,7 @@ export default function TopNav() {
             await signOut();
           }}
         >
-          <button className="flex items-center gap-2 rounded-md bg-gray-50 p-2 text-sm font-medium text-gray-800 hover:bg-sky-100 hover:text-blue-600">
+          <button className="flex items-center gap-2 rounded-md bg-purple-400 p-2 text-sm font-medium text-gray-800 hover:bg-sky-100 hover:text-purple-900">
             <PowerIcon className="w-6" />
             <span>Sign Out</span>
           </button>

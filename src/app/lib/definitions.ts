@@ -1,6 +1,9 @@
 // This file contains type definitions for your data.
 // It describes the shape of the data, and what data type each property should accept.
 // For simplicity of teaching, we're manually defining these types.
+
+import { DateTime } from "next-auth/providers/kakao";
+
 // However, these types are generated automatically if you're using an ORM such as Prisma.
 export type User = {
   id: string;
@@ -50,6 +53,25 @@ export type Score = {
   timer: string;
   ID_params: number;
   number: number;
+  // titre?: string;
+  titres: string[];
+};
+
+export type Chansons = {
+  id_chanson: number;
+  titre: number;
+  artiste: string;
+  paroles: number;
+};
+
+export type Dates = {
+  timer: DateTime;
+};
+
+export type Parametres = {
+  id_params: number;
+  temps: number;
+  nbchanson: number;
 };
 
 export type InvoicesTable = {

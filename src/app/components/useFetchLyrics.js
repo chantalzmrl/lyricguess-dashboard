@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
+import { useFetchRandomMusic } from './useFetchRandomMusic';
 
 export function useFetchLyrics(APIChan, musicId, initializedLyric) {
     const [lyrics, setLyrics] = useState({ entireLyric: '', halfLyric: ''});
@@ -13,10 +14,10 @@ export function useFetchLyrics(APIChan, musicId, initializedLyric) {
                     const halfLyric = lyricSplited.slice(0, Math.ceil(lyricSplited.length / 2)).join('<br/>');
                     setLyrics({ entireLyric, halfLyric });
                 } catch (error) {
+                    useFetchRandomMusic();
                     console.error('Error fetching lyrics:', error);
                 }
             };
-
             fetchLyric();
             initializedLyric.current = true;
         }

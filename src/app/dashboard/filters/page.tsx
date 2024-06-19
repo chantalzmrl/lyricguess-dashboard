@@ -9,8 +9,10 @@ type Genre = {
   name: string;
 };
 
-const APIClem = "748abbee5cd03af50b25df7d90712004"
-const APIChan = "cc714dd978bb466ab1647a1930dab0eb"
+const APIClem = "748abbee5cd03af50b25df7d90712004";
+const APIChan = "cc714dd978bb466ab1647a1930dab0eb";
+const APIChan2 = "fea0e303280abb2f95f0cec07585cc19";
+const APIChan3 = "4ac4dc543416ddc84a76fc91c72cd98e";
 
 const languageOptions = [
   { value: 'en', label: 'Anglais' },
@@ -30,10 +32,17 @@ export default function Page() {
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedLanguageValues, setSelectedLanguageValues] = useState<string[]>([]);
 
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("Manche");
+    localStorage.removeItem("Genres");
+    localStorage.removeItem("Timer");
+    localStorage.removeItem("Langues");
+}
+
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const response = await fetch('https://api.musixmatch.com/ws/1.1/music.genres.get?apikey=' + APIChan);
+        const response = await fetch('https://api.musixmatch.com/ws/1.1/music.genres.get?apikey=' + APIChan3);
         const data = await response.json();
 
         const genresList = data.message.body.music_genre_list;
@@ -100,95 +109,100 @@ export default function Page() {
   };
 
   return (
-    <main>
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Filtres
-      </h1>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-bold mb-4">Choisis la langues des paroles de musiques</h2>
-          <select onChange={handleLanguageSelect} className="p-2 border rounded mb-4">
-            <option value="">Toutes les langues</option>
-            {languageOptions.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-          <div>
-            <h3 className="text-xl font-bold mb-2">Langues choisies</h3>
-            <ul className="list-disc pl-4">
-              {selectedLanguages.map((language, index) => (
-                <li key={index}>
-                  {language}
-                  <button
-                    onClick={() => handleLanguageRemove(language)}
-                    className="ml-2 text-red-600"
-                  >
-                    &times;
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-        <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-bold mb-4">Choisis les genres de musiques que tu veux</h2>
-          <select onChange={handleGenreSelect} className="p-2 border rounded mb-4">
-            <option value="">Tous les genres</option>
-            {genres.map((genre) => (
-              <option key={genre.id} value={genre.id}>{genre.name}</option>
-            ))}
-          </select>
-          <div>
-            <h3 className="text-xl font-bold mb-2">Genres choisis</h3>
-            <ul className="list-disc pl-4">
-              {selectedGenres.map((genre) => (
-                <li key={genre.id}>
-                  {genre.name}
-                  <button
-                    onClick={() => handleGenreRemove(genre)}
-                    className="ml-2 text-red-600"
-                  >
-                    &times;
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+<main className="p-6">
+      <div className="flex justify-center mt-8">
+      <h1 className="text-3xl font-bold mb-16 text-yellow-600">Paramètres de la partie</h1>
       </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    {/* Section de sélection de la langue */}
+    <div className="flex flex-col items-center border-2 border-purple-800 rounded-lg p-6 text-purple-800">
+      <h2 className="text-2xl font-bold mb-4">Langues des paroles</h2>
+      <select onChange={handleLanguageSelect} className="p-2 border rounded mb-4 w-48">
+        <option value="">Toutes les langues</option>
+        {languageOptions.map((option) => (
+          <option key={option.value} value={option.value}>{option.label}</option>
+        ))}
+      </select>
       <div>
-        <h3 id="selectTimer" className="text-2xl font-bold mb-4">temps par manche</h3>
-        <select className="p-2 border rounded mb-4">
-          <option value="10">10s</option>
-          <option value="30">30s</option>
-          <option value="60">1min</option>
-          <option value="90">1min30</option>
-          <option value="120">2min</option>
-          <option value="180">3min</option>
-        </select>
+        <ul className="list-disc pl-4">
+          {selectedLanguages.map((language, index) => (
+            <li key={index}>
+              {language}
+              <button
+                onClick={() => handleLanguageRemove(language)}
+                className="ml-2 text-red-600"
+              >
+                &times;
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
+    </div>
+    
+    {/* Section de sélection du genre */}
+    <div className="flex flex-col items-center border-2 border-purple-800 rounded-lg p-6 text-purple-800">
+      <h2 className="text-2xl font-bold mb-4">genres musicaux</h2>
+      <select onChange={handleGenreSelect} className="p-2 border rounded mb-4 w-48">
+        <option value="">Tous les genres</option>
+        {genres.map((genre) => (
+          <option key={genre.id} value={genre.id}>{genre.name}</option>
+        ))}
+      </select>
       <div>
-        <h3 id="selectManche" className="text-2xl font-bold mb-4">nombre de manches</h3>
-        <select className="p-2 border rounded mb-4">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-        </select>
+        <ul className="list-disc pl-4">
+          {selectedGenres.map((genre) => (
+            <li key={genre.id}>
+              {genre.name}
+              <button
+                onClick={() => handleGenreRemove(genre)}
+                className="ml-2 text-red-600"
+              >
+                &times;
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
-      </div>
-      <div>
-        <button onClick={handleRedirect} className="p-2 bg-blue-500 text-white rounded">
-          Démarrer une partie
-        </button>
-      </div>
-    </main>
+    </div>
+
+    {/* Section de sélection du temps par manche */}
+    <div className="border-2 border-purple-800 rounded-lg p-6 text-purple-800">
+      <h3 id="selectTimer" className="text-2xl font-bold mb-4">Temps par manche</h3>
+      <select className="p-2 border rounded mb-4 w-48">
+        <option value="10">10s</option>
+        <option value="30">30s</option>
+        <option value="60">1min</option>
+        <option value="90">1min30</option>
+        <option value="120">2min</option>
+        <option value="180">3min</option>
+      </select>
+    </div>
+
+    {/* Section de sélection du nombre de manches */}
+    <div className="border-2 border-purple-800 rounded-lg p-6 text-purple-800">
+      <h3 id="selectManche" className="text-2xl font-bold mb-4">Nombre de manches</h3>
+      <select className="p-2 border rounded mb-4 w-48">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+    </div>
+  </div>
+
+  {/* Bouton de démarrage de partie */}
+  <div className="flex justify-center mt-8">
+    <button onClick={handleRedirect} className="p-3 bg-yellow-500 text-white rounded-lg text-xl hover:bg-yellow-600">
+      Démarrer une partie
+    </button>
+  </div>
+</main>
   );
 }

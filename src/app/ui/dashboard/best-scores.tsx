@@ -26,14 +26,30 @@ export default function BestScores() {
     fetchScores();
   }, []);
 
+  const getMedaille = (index: any) => {
+    switch (index) {
+      case 0:
+        return "🥇";
+      case 1:
+        return "🥈";
+      case 2:
+        return "🥉";
+      default:
+        return "";
+    }
+  };
+
   return (
-    <div>
-      <h2>Best Scores</h2>
-      <ul>
-        {scores.map((score, index) => (
-          <li key={index}>{score.number}</li>
-        ))}
-      </ul>
-    </div>
+<div>
+  <h1 className="text-2xl font-bold text-purple-700 text-center pb-8">Meilleurs scores</h1>
+  <ul className="podium-list grid grid-cols-3 place-content-around place-items-center">
+    {scores.slice(0, 3).map((score, index) => (
+      <div key={index} className={`podium-item podium-${index + 1}`}>
+        <span className="podium-medal">{getMedaille(index)}</span>
+        {score.number}
+      </div>
+    ))}
+  </ul>
+</div>
   );
 }
