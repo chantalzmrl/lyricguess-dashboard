@@ -281,7 +281,7 @@ export default function Page() {
                                 </div>
                             )}
                             <div className="mb-5">
-                                <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700" onClick={revealArtist}>Dévoiler l'artiste</button>
+                                <button className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700" onClick={revealArtist}>Dévoiler l&aposartiste</button>
                                 <div id="rvArtist" className="mt-2 text-lg" dangerouslySetInnerHTML={{ __html: showArtist ? artist : "" }}></div>
                             </div>
                             <div>
